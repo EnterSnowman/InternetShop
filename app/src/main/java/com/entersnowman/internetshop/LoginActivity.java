@@ -1,5 +1,6 @@
 package com.entersnowman.internetshop;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,12 @@ import com.google.firebase.auth.FirebaseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.link_signup) TextView signup;
     @BindView(R.id.input_email) EditText inputEmail;
     @BindView(R.id.input_password) EditText inputPassword;
     @BindView(R.id.btn_login) Button loginButton;
+    private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     public final static String TAG = "Shop";
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(MainActivity.this,TmpActivity.class));
+                    startActivity(new Intent(LoginActivity.this,GeneralActivity.class));
                     finish();
 
 
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SignupActivity.class));
+                startActivity(new Intent(LoginActivity.this,SignupActivity.class));
                 finish();
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
             }
@@ -64,28 +67,32 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validate())
+                if (validate()){
+                    progressDialog.show();
                 mAuth.signInWithEmailAndPassword(inputEmail.getText().toString(), inputPassword.getText().toString())
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                                 if (task.isSuccessful()){
-                                startActivity(new Intent(MainActivity.this,TmpActivity.class));
+                                    progressDialog.cancel();
+                                startActivity(new Intent(LoginActivity.this,GeneralActivity.class));
                                 finish();
                                 }
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
+                                    progressDialog.cancel();
                                     Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                    Toast.makeText(MainActivity.this, R.string.auth_failed,
+                                    Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                             Toast.LENGTH_SHORT).show();
                                 }
 
                                 // ...
                             }
                         });
+                }
             }
         });
     }

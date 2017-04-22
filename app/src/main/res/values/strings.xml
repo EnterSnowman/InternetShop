@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">InternetShop</string>
     <string name="auth_failed">SignIn failed</string>
+    <string name="title_activity_general">GeneralActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <!--nav drawer strings-->
+    <string name="basket">Basket</string>
+    <string name="favors">Favorites</string>
+    <string name="orders">My orders</string>
+    <string name="settings">User settings</string>
+    <string name="logout">Log out</string>
+    <string name="more">SHOW MORE</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.entersnowman.internetshop;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this,MainActivity.class));
+                startActivity(new Intent(SignupActivity.this,LoginActivity.class));
                 finish();
                 overridePendingTransition(R.anim.left_in,R.anim.right_out);
             }
@@ -51,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d(MainActivity.TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                Log.d(LoginActivity.TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                                 if (task.isSuccessful()){
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                     user.sendEmailVerification();
@@ -63,11 +62,11 @@ public class SignupActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        Log.d(MainActivity.TAG, "User profile updated.");
+                                                        Log.d(LoginActivity.TAG, "User profile updated.");
                                                     }
                                                 }
                                             });
-                                    startActivity(new Intent(SignupActivity.this,TmpActivity.class));
+                                    startActivity(new Intent(SignupActivity.this,GeneralActivity.class));
                                     finish();
                                 }
 
