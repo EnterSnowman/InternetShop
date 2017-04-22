@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">InternetShop</string>
+    <string name="auth_failed">SignIn failed</string>
+</resources>

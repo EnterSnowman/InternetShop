@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862188024492",
+    "firebase_url": "https://internetshop-db4c8.firebaseio.com",
+    "project_id": "internetshop-db4c8",
+    "storage_bucket": "internetshop-db4c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862188024492:android:988284af3adb149a",
+        "android_client_info": {
+          "package_name": "com.entersnowman.internetshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862188024492-o0ioevilgdq9udpgj2csvfjblim0emma.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.entersnowman.internetshop",
+            "certificate_hash": "1b029d9ba05c3b41f553bf5821246bf111308c20"
+          }
+        },
+        {
+          "client_id": "862188024492-cd7qm909ckd9qok0d4tqnpvd47c0s8a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeoXzkQIP2fP5Ad6v0Ly5URiEYzCMR_fU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862188024492-cd7qm909ckd9qok0d4tqnpvd47c0s8a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
