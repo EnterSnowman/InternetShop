@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,TmpActivity.class));
                     finish();
 
+
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,SignupActivity.class));
                 finish();
+                overridePendingTransition(R.anim.right_in,R.anim.left_out);
             }
         });
 

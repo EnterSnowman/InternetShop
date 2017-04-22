@@ -40,6 +40,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignupActivity.this,MainActivity.class));
+                finish();
+                overridePendingTransition(R.anim.left_in,R.anim.right_out);
             }
         });
         signupButton.setOnClickListener(new View.OnClickListener() {
