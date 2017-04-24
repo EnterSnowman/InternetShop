@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp">
+<ImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:id="@+id/product_photo"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_name"
+        android:maxLines="2"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:gravity="right"
+        android:text="sample"
+        android:textColor="@color/primary_dark"
+        android:textSize="18sp" />
+</LinearLayout>

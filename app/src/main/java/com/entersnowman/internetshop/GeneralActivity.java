@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -22,7 +24,16 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.entersnowman.internetshop.adapter.BestProductAdapter;
+import com.entersnowman.internetshop.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,12 +41,15 @@ import butterknife.ButterKnife;
 public class GeneralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    final static String FIREBASE = "FIREBASE";
     @BindView(R.id.content) LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general);
         ButterKnife.bind(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("products");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,7 +73,31 @@ public class GeneralActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mAuth = FirebaseAuth.getInstance();
         nameLabel.setText(mAuth.getCurrentUser().getDisplayName());
-        linearLayout.addView(getLayoutInflater().inflate(R.layout.category_item,null,false));
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d: dataSnapshot.getChildren()){
+                    addCategoryView(d.getKey());
+                    Log.d(FIREBASE,"Cat "+d.getKey());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //temporary
+        /*View v = getLayoutInflater().inflate(R.layout.category_item,null,false);
+        ((TextView) v.findViewById(R.id.category)).setText("Some category");
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
+        ArrayList<Product> products = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            products.add(new Product("Product "+i, (float) (i*1.3),"http://biznesformula.ru/wp-content/uploads/2011/04/produkt.jpg",true));
+        }
+        BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
+        recyclerView.setAdapter(bestProductAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        linearLayout.addView(v);*/
     }
 
     @Override
@@ -70,6 +108,20 @@ public class GeneralActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void addCategoryView(String category){
+        View v = getLayoutInflater().inflate(R.layout.category_item,null,false);
+        ((TextView) v.findViewById(R.id.category)).setText(category);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
+        ArrayList<Product> products = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            products.add(new Product("Product "+i, (float) (i*1.3),"http://biznesformula.ru/wp-content/uploads/2011/04/produkt.jpg",true));
+        }
+        BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
+        recyclerView.setAdapter(bestProductAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        linearLayout.addView(v);
     }
 
     @Override
