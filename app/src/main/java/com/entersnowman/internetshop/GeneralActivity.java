@@ -77,7 +77,11 @@ public class GeneralActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d: dataSnapshot.getChildren()){
-                    addCategoryView(d.getKey());
+                    ArrayList<Product> products = new ArrayList<Product>();
+                    for (DataSnapshot p: d.getChildren()){
+                        products.add(p.getValue(Product.class));
+                    }
+                    addCategoryView(d.getKey(),products);
                     Log.d(FIREBASE,"Cat "+d.getKey());
                 }
             }
@@ -110,14 +114,10 @@ public class GeneralActivity extends AppCompatActivity
         }
     }
 
-    public void addCategoryView(String category){
+    public void addCategoryView(String category,ArrayList<Product> products){
         View v = getLayoutInflater().inflate(R.layout.category_item,null,false);
         ((TextView) v.findViewById(R.id.category)).setText(category);
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
-        ArrayList<Product> products = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            products.add(new Product("Product "+i, (float) (i*1.3),"http://biznesformula.ru/wp-content/uploads/2011/04/produkt.jpg",true));
-        }
         BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
         recyclerView.setAdapter(bestProductAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
