@@ -30,6 +30,7 @@
         android:text="@string/more"
         android:layout_gravity="right"
         android:textColor="@color/accent"
+        android:id="@+id/showMore"
         android:textStyle="bold"/>
 </FrameLayout>
     <View

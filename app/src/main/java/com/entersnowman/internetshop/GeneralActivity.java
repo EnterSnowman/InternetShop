@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.entersnowman.internetshop.adapter.BestProductAdapter;
+import com.entersnowman.internetshop.adapter.CategoryAdapter;
 import com.entersnowman.internetshop.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -90,18 +91,7 @@ public class GeneralActivity extends AppCompatActivity
 
             }
         });
-        //temporary
-        /*View v = getLayoutInflater().inflate(R.layout.category_item,null,false);
-        ((TextView) v.findViewById(R.id.category)).setText("Some category");
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
-        ArrayList<Product> products = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            products.add(new Product("Product "+i, (float) (i*1.3),"http://biznesformula.ru/wp-content/uploads/2011/04/produkt.jpg",true));
-        }
-        BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
-        recyclerView.setAdapter(bestProductAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        linearLayout.addView(v);*/
+
     }
 
     @Override
@@ -114,9 +104,17 @@ public class GeneralActivity extends AppCompatActivity
         }
     }
 
-    public void addCategoryView(String category,ArrayList<Product> products){
+    public void addCategoryView(final String category, ArrayList<Product> products){
         View v = getLayoutInflater().inflate(R.layout.category_item,null,false);
         ((TextView) v.findViewById(R.id.category)).setText(category);
+        v.findViewById(R.id.showMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GeneralActivity.this, CategoryActivity.class);
+                intent.putExtra("category",category);
+                startActivity(intent);
+            }
+        });
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
         BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
         recyclerView.setAdapter(bestProductAdapter);

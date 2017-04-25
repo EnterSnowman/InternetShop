@@ -28,7 +28,8 @@
             android:name=".GeneralActivity"
             android:label="@string/title_activity_general"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ProductActivity"></activity>
+        <activity android:name=".ProductActivity" />
+        <activity android:name=".CategoryActivity"></activity>
     </application>
 
 </manifest>

@@ -14,4 +14,7 @@
     <string name="settings">User settings</string>
     <string name="logout">Log out</string>
     <string name="more">SHOW MORE</string>
+
+    <string name="available">Product available</string>
+    <string name="unavailable">Product unavailable</string>
 </resources>

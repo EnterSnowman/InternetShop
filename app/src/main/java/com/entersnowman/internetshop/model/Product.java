@@ -9,6 +9,7 @@ public class Product {
     float price;
     String photo_url;
     boolean isAvailable;
+    float rating;
     public  Product(){
 
     }
@@ -17,6 +18,23 @@ public class Product {
         this.price = price;
         this.photo_url = photo_url;
         this.isAvailable = isAvailable;
+    }
+
+    public Product(String name, float price, String photo_url, boolean isAvailable, float rating) {
+        this.name = name;
+        this.price = price;
+        this.photo_url = photo_url;
+        this.isAvailable = isAvailable;
+        this.rating = rating;
+    }
+
+    public float getRating() {
+
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public String getName() {
