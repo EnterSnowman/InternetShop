@@ -1,6 +1,7 @@
 package com.entersnowman.internetshop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.entersnowman.internetshop.ProductActivity;
 import com.entersnowman.internetshop.R;
 import com.entersnowman.internetshop.model.Product;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -65,6 +67,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Produc
         TextView productAvailability;
         public ProductHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProductActivity.class);
+                    intent.putExtra("category",category);
+                    intent.putExtra("product_id",products.get(getAdapterPosition()).getId());
+                    intent.putExtra("product_name",products.get(getAdapterPosition()).getName());
+                    context.startActivity(intent);
+                }
+            });
             productName_tv = (TextView) itemView.findViewById(R.id.product_name);
             productPrice_tv = (TextView) itemView.findViewById(R.id.product_price);
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);

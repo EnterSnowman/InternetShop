@@ -53,7 +53,7 @@ public class GeneralActivity extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference().child("products");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle(getString(R.string.main_page));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,9 @@ public class GeneralActivity extends AppCompatActivity
                 for (DataSnapshot d: dataSnapshot.getChildren()){
                     ArrayList<Product> products = new ArrayList<Product>();
                     for (DataSnapshot p: d.getChildren()){
-                        products.add(p.getValue(Product.class));
+                        Product pr = p.getValue(Product.class);
+                        pr.setId(p.getKey());
+                        products.add(pr);
                     }
                     addCategoryView(d.getKey(),products);
                     Log.d(FIREBASE,"Cat "+d.getKey());
@@ -116,7 +118,19 @@ public class GeneralActivity extends AppCompatActivity
             }
         });
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list_of_goods_in_categoty);
-        BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category",products,this);
+        final BestProductAdapter bestProductAdapter = new BestProductAdapter("Some category", products, this);
+        BestProductAdapter.ListItemClickListener listItemClickListener = new BestProductAdapter.ListItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Log.d("CLICK",category+" "+position);
+                Intent intent = new Intent(GeneralActivity.this,ProductActivity.class);
+                intent.putExtra("category",category);
+                intent.putExtra("product_id",bestProductAdapter.getProducts().get(position).getId());
+                intent.putExtra("product_name",bestProductAdapter.getProducts().get(position).getName());
+                startActivity(intent);
+            }
+        };
+        bestProductAdapter.setListItemClickListener(listItemClickListener);
         recyclerView.setAdapter(bestProductAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         linearLayout.addView(v);

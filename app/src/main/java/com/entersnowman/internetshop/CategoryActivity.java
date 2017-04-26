@@ -40,7 +40,9 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d: dataSnapshot.getChildren()){
-                    products.add(d.getValue(Product.class));
+                    Product p = d.getValue(Product.class);
+                    p.setId(d.getKey());
+                    products.add(p);
                     categoryAdapter.notifyDataSetChanged();
                 }
             }

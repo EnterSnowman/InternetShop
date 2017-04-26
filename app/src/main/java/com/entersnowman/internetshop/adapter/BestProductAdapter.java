@@ -2,6 +2,7 @@ package com.entersnowman.internetshop.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,14 @@ public class BestProductAdapter extends RecyclerView.Adapter<BestProductAdapter.
     String category;
     ArrayList<Product> products;
     Context context;
+    ListItemClickListener listItemClickListener;
+    public ListItemClickListener getListItemClickListener() {
+        return listItemClickListener;
+    }
+
+    public void setListItemClickListener(ListItemClickListener listItemClickListener) {
+        this.listItemClickListener = listItemClickListener;
+    }
 
     public String getCategory() {
         return category;
@@ -50,8 +59,10 @@ public class BestProductAdapter extends RecyclerView.Adapter<BestProductAdapter.
         this.context = context;
     }
 
+    public  interface ListItemClickListener{
+        void onItemClick(int position);
+    }
     public BestProductAdapter(String category, ArrayList<Product> products, Context context) {
-
         this.category = category;
         this.products = products;
         this.context = context;
@@ -78,7 +89,7 @@ public class BestProductAdapter extends RecyclerView.Adapter<BestProductAdapter.
         return products.size();
     }
 
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    public class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView productName_tv;
         TextView productPrice_tv;
         ImageView productPhoto;
@@ -87,6 +98,12 @@ public class BestProductAdapter extends RecyclerView.Adapter<BestProductAdapter.
             productName_tv = (TextView) itemView.findViewById(R.id.product_name);
             productPrice_tv = (TextView) itemView.findViewById(R.id.product_price);
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listItemClickListener.onItemClick(getAdapterPosition());
         }
     }
 }
