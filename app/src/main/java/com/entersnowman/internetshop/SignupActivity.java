@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,7 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.input_name) EditText inputName;
     @BindView(R.id.btn_signup)    Button signupButton;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +70,8 @@ public class SignupActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
+                                    mDatabase.child(user.getUid()).child("basket").setValue("empty");
+                                    mDatabase.child(user.getUid()).child("favorite").setValue("empty");
                                     startActivity(new Intent(SignupActivity.this,GeneralActivity.class));
                                     finish();
                                 }

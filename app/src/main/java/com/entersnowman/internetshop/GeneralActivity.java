@@ -75,6 +75,7 @@ public class GeneralActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mAuth = FirebaseAuth.getInstance();
         nameLabel.setText(mAuth.getCurrentUser().getDisplayName());
+        Log.d(FIREBASE,"NAme is: "+mAuth.getCurrentUser().getDisplayName());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

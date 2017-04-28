@@ -69,8 +69,9 @@ public class ProductActivity extends AppCompatActivity {
                 .child(getIntent().getStringExtra("category"))
                 .child(getIntent().getStringExtra("product_id"));
         mDatabaseBasket = FirebaseDatabase.getInstance().getReference()
-                .child("baskets")
-                .child(mAuth.getCurrentUser().getUid());
+                .child("users")
+                .child(mAuth.getCurrentUser().getUid())
+                .child("basket");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getIntent().getStringExtra("product_name"));
         mStorageRef = FirebaseStorage.getInstance().getReference();
