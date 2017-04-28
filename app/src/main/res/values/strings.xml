@@ -18,4 +18,6 @@
 
     <string name="available">Product available</string>
     <string name="unavailable">Product unavailable</string>
+    <string name="product_added_to_basket">Product added to basket</string>
+    <string name="product_removed_from_basket">Product removed from basket</string>
 </resources>

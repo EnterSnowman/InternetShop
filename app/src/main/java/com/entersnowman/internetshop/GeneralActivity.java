@@ -43,6 +43,7 @@ public class GeneralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
     final static String FIREBASE = "FIREBASE";
     @BindView(R.id.content) LinearLayout linearLayout;
     @Override
