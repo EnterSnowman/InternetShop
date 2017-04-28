@@ -20,4 +20,6 @@
     <string name="unavailable">Product unavailable</string>
     <string name="product_added_to_basket">Product added to basket</string>
     <string name="product_removed_from_basket">Product removed from basket</string>
+    <string name="product_added_to_fav">Product added to favorites</string>
+    <string name="product_removed_from_fav">Product removed from favorites</string>
 </resources>

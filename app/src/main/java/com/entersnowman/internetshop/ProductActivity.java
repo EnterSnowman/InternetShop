@@ -39,9 +39,11 @@ public class ProductActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabasePhotos;
     private DatabaseReference mDatabaseBasket;
+    private DatabaseReference mDatabaseFavorites;
     private StorageReference mStorageRef;
     private Product currentProduct;
     boolean isInBasket;
+    boolean isInFavorite;
     @BindView(R.id.slider) SliderLayout slider;
     @BindView(R.id.product_name) TextView productName;
     @BindView(R.id.product_price) TextView productPrice;
@@ -72,6 +74,10 @@ public class ProductActivity extends AppCompatActivity {
                 .child("users")
                 .child(mAuth.getCurrentUser().getUid())
                 .child("basket");
+        mDatabaseFavorites = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(mAuth.getCurrentUser().getUid())
+                .child("favorite");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getIntent().getStringExtra("product_name"));
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -105,6 +111,15 @@ public class ProductActivity extends AppCompatActivity {
                 addToBasket();
                 else
                 removeFromBasket();
+            }
+        });
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isInFavorite)
+                    addToFavorites();
+                else
+                    removeFromFavorites();
             }
         });
     }
@@ -166,6 +181,28 @@ public class ProductActivity extends AppCompatActivity {
         });
     }
 
+    public void addToFavorites(){
+        mDatabaseFavorites.child(getIntent().getStringExtra("category")+"_"+getIntent().getStringExtra("product_id")).setValue("onBasket").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ProductActivity.this,getString(R.string.product_added_to_fav),Toast.LENGTH_SHORT).show();
+                likeBtn.setImageResource(R.mipmap.ic_heart_green);
+                isInFavorite = true;
+            }
+        });
+    }
+
+    public void removeFromFavorites(){
+        mDatabaseFavorites.child(getIntent().getStringExtra("category")+"_"+getIntent().getStringExtra("product_id")).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ProductActivity.this,getString(R.string.product_removed_from_fav),Toast.LENGTH_SHORT).show();
+                likeBtn.setImageResource(R.mipmap.ic_heart);
+                isInFavorite = false;
+            }
+        });
+    }
+
     public void initImageButtons(){
         mDatabaseBasket.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -176,6 +213,23 @@ public class ProductActivity extends AppCompatActivity {
                 }
                 else
                     isInBasket = false;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabaseFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(getIntent().getStringExtra("category")+"_"+getIntent().getStringExtra("product_id"))){
+                    likeBtn.setImageResource(R.mipmap.ic_heart_green);
+                    isInFavorite = true;
+                }
+                else
+                    isInFavorite = false;
             }
 
             @Override
