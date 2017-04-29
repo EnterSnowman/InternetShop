@@ -10,6 +10,16 @@ public class Product {
     String photo_url;
     boolean isAvailable;
     float rating;
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public String getId() {
         return id;
@@ -23,11 +33,12 @@ public class Product {
     public  Product(){
 
     }
-    public Product(String name, float price, String photo_url, boolean isAvailable) {
+    public Product(String name, float price, String photo_url, boolean isAvailable,String description) {
         this.name = name;
         this.price = price;
         this.photo_url = photo_url;
         this.isAvailable = isAvailable;
+        this.description = description;
     }
 
     public Product(String name, float price, String photo_url, boolean isAvailable, float rating) {

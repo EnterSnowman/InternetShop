@@ -48,6 +48,8 @@ public class ProductActivity extends AppCompatActivity {
     @BindView(R.id.product_name) TextView productName;
     @BindView(R.id.product_price) TextView productPrice;
     @BindView(R.id.availability) TextView availability;
+    @BindView(R.id.productTitle) TextView descriptionTitle;
+    @BindView(R.id.product_description) TextView productDescription;
     @BindView(R.id.product_rating) RatingBar ratingBar;
     @BindView(R.id.like) ImageView likeBtn;
     @BindView(R.id.in_basket) ImageView basketBtn;
@@ -59,6 +61,7 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
+
         photos_URLs = new ArrayList<>();
         slider.stopAutoCycle();
         mAuth = FirebaseAuth.getInstance();
@@ -79,6 +82,12 @@ public class ProductActivity extends AppCompatActivity {
                 .child(mAuth.getCurrentUser().getUid())
                 .child("favorite");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        descriptionTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle_contents(productDescription, (ImageView) findViewById(R.id.expand_collapse_description));
+            }
+        });
         setTitle(getIntent().getStringExtra("product_name"));
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabasePhotos.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,6 +112,7 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+        productDescription.setVisibility(View.GONE);
         bindProductInfo();
         basketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +146,16 @@ public class ProductActivity extends AppCompatActivity {
 
     }
 
+
+
+    public void toggle_contents(View v,ImageView arrow){
+        arrow.setImageResource(v.isShown()? R.drawable.ic_expand_small_holo_light : R.drawable.ic_collapse_small_holo_light);
+        v.setVisibility( v.isShown()
+                ? View.GONE
+                : View.VISIBLE );
+
+
+    }
     public void bindProductInfo(){
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -149,6 +169,7 @@ public class ProductActivity extends AppCompatActivity {
                     availability.setText(getString(R.string.unavailable));
                 ratingBar.setIsIndicator(true);
                 ratingBar.setRating(currentProduct.getRating());
+                productDescription.setText(currentProduct.getDescription());
             }
 
             @Override
