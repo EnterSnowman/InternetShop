@@ -48,8 +48,10 @@ public class ProductActivity extends AppCompatActivity {
     @BindView(R.id.product_name) TextView productName;
     @BindView(R.id.product_price) TextView productPrice;
     @BindView(R.id.availability) TextView availability;
-    @BindView(R.id.productTitle) TextView descriptionTitle;
+    @BindView(R.id.descriptionTitle) TextView descriptionTitle;
     @BindView(R.id.product_description) TextView productDescription;
+    @BindView(R.id.charTitle) TextView charTitle;
+    @BindView(R.id.product_characteristics) TextView productCharacteristics;
     @BindView(R.id.product_rating) RatingBar ratingBar;
     @BindView(R.id.like) ImageView likeBtn;
     @BindView(R.id.in_basket) ImageView basketBtn;
@@ -88,6 +90,13 @@ public class ProductActivity extends AppCompatActivity {
                 toggle_contents(productDescription, (ImageView) findViewById(R.id.expand_collapse_description));
             }
         });
+        charTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle_contents(productCharacteristics, (ImageView) findViewById(R.id.expand_collapse_char));
+            }
+        });
+
         setTitle(getIntent().getStringExtra("product_name"));
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabasePhotos.addListenerForSingleValueEvent(new ValueEventListener() {
