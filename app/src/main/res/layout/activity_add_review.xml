@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/review_edit_text"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/send_review"
         android:layout_below="@+id/review_rating"
         android:gravity="top"
         android:padding="8dp"
@@ -30,5 +30,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/button2" />
+        android:id="@+id/send_review" />
 </RelativeLayout>

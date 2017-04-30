@@ -103,6 +103,8 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProductActivity.this, ReviewsActivity.class);
+                intent.putExtra("category",getIntent().getStringExtra("category"));
+                intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
                 startActivity(intent);
             }
         });

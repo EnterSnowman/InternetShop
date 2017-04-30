@@ -28,4 +28,6 @@
     <string name="send">Send</string>
     <string name="give_feedback">Give feedback</string>
     <string name="input_your_review">Input your review...</string>
+    <string name="rate_product">Please, rate product from 1 to 5</string>
+    <string name="input_review">Please, input review</string>
 </resources>
