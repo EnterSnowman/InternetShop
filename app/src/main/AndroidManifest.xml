@@ -29,7 +29,9 @@
             android:label="@string/title_activity_general"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".CategoryActivity"></activity>
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".ReviewsActivity" />
+        <activity android:name=".AddReviewActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.entersnowman.internetshop;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ public class ProductActivity extends AppCompatActivity {
     boolean isInBasket;
     boolean isInFavorite;
     @BindView(R.id.slider) SliderLayout slider;
+    @BindView(R.id.reviews_container) TableRow review_container;
     @BindView(R.id.product_name) TextView productName;
     @BindView(R.id.product_price) TextView productPrice;
     @BindView(R.id.availability) TextView availability;
@@ -96,7 +99,13 @@ public class ProductActivity extends AppCompatActivity {
                 toggle_contents(productCharacteristics, (ImageView) findViewById(R.id.expand_collapse_char));
             }
         });
-
+        review_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductActivity.this, ReviewsActivity.class);
+                startActivity(intent);
+            }
+        });
         setTitle(getIntent().getStringExtra("product_name"));
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabasePhotos.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -122,6 +131,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
         productDescription.setVisibility(View.GONE);
+        productCharacteristics.setVisibility(View.GONE);
         bindProductInfo();
         basketBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,4 +24,8 @@
     <string name="product_removed_from_fav">Product removed from favorites</string>
     <string name="description">Description</string>
     <string name="characteristics">Characteristics</string>
+    <string name="reviews">Rewiews</string>
+    <string name="send">Send</string>
+    <string name="give_feedback">Give feedback</string>
+    <string name="input_your_review">Input your review...</string>
 </resources>
