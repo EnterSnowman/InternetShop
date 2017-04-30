@@ -27,9 +27,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         return reviewHolder;
     }
 
+    public ReviewAdapter(ArrayList<Review> reviews, Context context) {
+        this.reviews = reviews;
+        this.context = context;
+    }
+
     @Override
     public void onBindViewHolder(ReviewHolder holder, int position) {
-
+        holder.reviewText.setText(reviews.get(position).getReviewText());
+        holder.buyerName.setText(reviews.get(position).getBuyerName());
+        //holder.reviewDate.setText(reviews.get(position).getReviewDate());
+        holder.reviewRating.setRating(reviews.get(position).getRating());
     }
 
     @Override
