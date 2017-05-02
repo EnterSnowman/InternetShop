@@ -31,7 +31,11 @@
         <activity android:name=".ProductActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".ReviewsActivity" />
-        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AddReviewActivity" />
+        <activity
+            android:name=".BasketActivity"
+            android:label="@string/title_activity_basket"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

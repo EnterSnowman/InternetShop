@@ -1,5 +1,6 @@
 package com.entersnowman.internetshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,14 +50,19 @@ public class AddReviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (reviewRating.getRating()!=0) {
                     if (!review_edit.getText().toString().equals("")) {
-                        Review review = new Review();
-                        review.setRating(reviewRating.getRating());
-                        review.setBuyerName(mAuth.getCurrentUser().getDisplayName());
-                        review.setReviewText(review_edit.getText().toString());
+                        //Review review = new Review();
+                        final Intent intent = new Intent();
+                        Map<String ,Object> review = new HashMap<String, Object>();
+                        review.put("timestamp",ServerValue.TIMESTAMP);
+                        review.put("rating",reviewRating.getRating());
+                        review.put("buyerName",mAuth.getCurrentUser().getDisplayName());
+                        review.put("reviewText",review_edit.getText().toString());
                         mDatabaseReviews.child(mAuth.getCurrentUser().getUid()).setValue(review, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                 Toast.makeText(AddReviewActivity.this,"Your review added",Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK,intent);
+                                finish();
                             }
                         });
 

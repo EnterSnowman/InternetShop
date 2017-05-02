@@ -11,7 +11,7 @@ public class Product {
     boolean isAvailable;
     float rating;
     String description;
-
+    String category;
     public String getDescription() {
         return description;
     }
@@ -20,6 +20,13 @@ public class Product {
         this.description = description;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getId() {
         return id;

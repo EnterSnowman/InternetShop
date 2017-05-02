@@ -187,6 +187,9 @@ public class GeneralActivity extends AppCompatActivity
                 finish();
             }
         }
+        if (id ==  R.id.nav_basket){
+            startActivity(new Intent(this,BasketActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

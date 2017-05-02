@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.entersnowman.internetshop.R;
 import com.entersnowman.internetshop.model.Review;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Valentin on 30.04.2017.
@@ -36,7 +38,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
     public void onBindViewHolder(ReviewHolder holder, int position) {
         holder.reviewText.setText(reviews.get(position).getReviewText());
         holder.buyerName.setText(reviews.get(position).getBuyerName());
-        //holder.reviewDate.setText(reviews.get(position).getReviewDate());
+        SimpleDateFormat sfd = new SimpleDateFormat("dd MM yyyy");
+        holder.reviewDate.setText( sfd.format(new Date(reviews.get(position).getReviewDate())));
         holder.reviewRating.setRating(reviews.get(position).getRating());
     }
 

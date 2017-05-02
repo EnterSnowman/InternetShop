@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.entersnowman.internetshop.adapter.ReviewAdapter;
 import com.entersnowman.internetshop.model.Review;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,13 +27,16 @@ public class ReviewsActivity extends AppCompatActivity {
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.listOfReviews) RecyclerView recyclerView;
     private DatabaseReference mDatabaseReviews;
+    private FirebaseAuth mAuth;
     ArrayList<Review> reviews;
     ReviewAdapter reviewAdapter;
+    final  static int NEW_REVIEW = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
         ButterKnife.bind(this);
+        mAuth=  FirebaseAuth.getInstance();
         getSupportActionBar().setTitle(R.string.reviews);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         reviews = new ArrayList<>();
@@ -45,7 +49,7 @@ public class ReviewsActivity extends AppCompatActivity {
                 Intent intent  = new Intent(ReviewsActivity.this,AddReviewActivity.class);
                 intent.putExtra("category",getIntent().getStringExtra("category"));
                 intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
-                startActivity(intent);
+                startActivityForResult(intent,NEW_REVIEW);
             }
         });
         mDatabaseReviews = FirebaseDatabase.getInstance().getReference()
@@ -68,6 +72,24 @@ public class ReviewsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            mDatabaseReviews.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    reviews.add(dataSnapshot.getValue(Review.class));
+                    reviewAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override

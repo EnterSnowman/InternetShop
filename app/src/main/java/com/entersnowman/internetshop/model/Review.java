@@ -1,21 +1,23 @@
 package com.entersnowman.internetshop.model;
 
+import java.util.Map;
+
 /**
  * Created by Valentin on 30.04.2017.
  */
 
 public class Review {
     String reviewText;
-    String reviewDate;
+    Long timestamp;
     String buyerName;
     float rating;
 
     public Review() {
     }
 
-    public Review(String reviewText, String reviewDate, String buyerName, float rating) {
+    public Review(String reviewText, Long reviewDate, String buyerName, float rating) {
         this.reviewText = reviewText;
-        this.reviewDate = reviewDate;
+        this.timestamp = reviewDate;
         this.buyerName = buyerName;
         this.rating = rating;
     }
@@ -28,12 +30,12 @@ public class Review {
         this.reviewText = reviewText;
     }
 
-    public String getReviewDate() {
-        return reviewDate;
+    public Long  getReviewDate() {
+        return timestamp;
     }
 
-    public void setReviewDate(String reviewDate) {
-        this.reviewDate = reviewDate;
+    public void setReviewDate(Long reviewDate) {
+        this.timestamp = reviewDate;
     }
 
     public String getBuyerName() {
