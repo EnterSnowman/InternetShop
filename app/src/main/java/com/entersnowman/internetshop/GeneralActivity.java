@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.entersnowman.internetshop.adapter.BestProductAdapter;
 import com.entersnowman.internetshop.adapter.CategoryAdapter;
+import com.entersnowman.internetshop.adapter.FavoritesAdapter;
 import com.entersnowman.internetshop.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -190,6 +191,11 @@ public class GeneralActivity extends AppCompatActivity
         if (id ==  R.id.nav_basket){
             startActivity(new Intent(this,BasketActivity.class));
         }
+
+        if (id ==  R.id.nav_favor){
+            startActivity(new Intent(this, FavoritesActivity.class));
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

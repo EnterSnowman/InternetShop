@@ -32,4 +32,6 @@
     <string name="input_review">Please, input review</string>
     <string name="title_activity_basket">BasketActivity</string>
     <string name="your_basket">Your basket</string>
+    <string name="your_favorites">Your favorites</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
 </resources>

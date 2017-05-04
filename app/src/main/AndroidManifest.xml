@@ -35,7 +35,16 @@
         <activity
             android:name=".BasketActivity"
             android:label="@string/title_activity_basket"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FavoritesActivity"
+            android:label="@string/title_activity_favorites"
+            android:parentActivityName=".GeneralActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.entersnowman.internetshop.GeneralActivity" />
+        </activity>
     </application>
 
 </manifest>
