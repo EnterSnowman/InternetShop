@@ -12,6 +12,7 @@ public class Product {
     float rating;
     String description;
     String category;
+    String id;
     public String getDescription() {
         return description;
     }
@@ -36,7 +37,7 @@ public class Product {
         this.id = id;
     }
 
-    String id;
+
     public  Product(){
 
     }

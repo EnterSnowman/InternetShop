@@ -65,6 +65,7 @@ public class BasketActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot d2) {
                             Product p = d2.getValue(Product.class);
                             p.setCategory(d.getKey().split("_")[0]);
+
                             basket_products.add(p);
                             basketAdapter.notifyDataSetChanged();
                         }

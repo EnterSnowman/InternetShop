@@ -34,4 +34,5 @@
     <string name="your_basket">Your basket</string>
     <string name="your_favorites">Your favorites</string>
     <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="added_in_your_basket">added in your basket</string>
 </resources>

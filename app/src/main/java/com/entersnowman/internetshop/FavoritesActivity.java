@@ -53,7 +53,7 @@ public class FavoritesActivity extends AppCompatActivity {
         mDatabaseProducts = FirebaseDatabase.getInstance().getReference().child("products");
         mDatabaseFavorites = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("favorite");
         favoriteProducts = new ArrayList<>();
-        favoritesAdapter = new FavoritesAdapter(favoriteProducts,this);
+        favoritesAdapter = new FavoritesAdapter(favoriteProducts,this,mAuth.getCurrentUser().getUid());
         favoritesList.setAdapter(favoritesAdapter);
         favoritesList.setLayoutManager(new LinearLayoutManager(this));
         mDatabaseFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -65,6 +65,7 @@ public class FavoritesActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot d2) {
                             Product p = d2.getValue(Product.class);
                             p.setCategory(d.getKey().split("_")[0]);
+                            p.setId(d.getKey().split("_")[1]);
                             favoriteProducts.add(p);
                             favoritesAdapter.notifyDataSetChanged();
                         }
