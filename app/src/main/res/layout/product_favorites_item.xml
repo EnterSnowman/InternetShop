@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:layout_toLeftOf="@+id/add_to_basket_button"
             android:layout_toRightOf="@+id/product_photo"
             android:layout_toEndOf="@+id/product_photo">
 
@@ -76,15 +75,30 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginRight="24dp"
-        android:id="@+id/add_to_basket_button"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible"
-        android:src="@mipmap/basket_fill"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/add_to_basket_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="18dp"
+                android:src="@mipmap/basket_fill"
+                android:layout_marginBottom="4dp"
+                android:visibility="invisible" />
+
+            <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="18dp"
+                android:layout_marginTop="4dp"
+            android:id="@+id/remove_from_favorites_button"
+            android:src="@mipmap/close"/>
+        </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

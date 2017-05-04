@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.entersnowman.internetshop.ProductActivity;
 import com.entersnowman.internetshop.R;
 import com.entersnowman.internetshop.model.Product;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,6 +85,7 @@ public class FavoritesAdapter  extends RecyclerView.Adapter<FavoritesAdapter.Pro
         TextView productPrice_tv;
         ImageView productPhoto;
         ImageView addToBasketbutton;
+        ImageView removeFromFavoritesbutton;
         TextView productAvailability;
         public ProductHolder(View itemView) {
             super(itemView);
@@ -93,6 +95,7 @@ public class FavoritesAdapter  extends RecyclerView.Adapter<FavoritesAdapter.Pro
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
             productAvailability = (TextView) itemView.findViewById(R.id.product_availability);
             addToBasketbutton = (ImageView) itemView.findViewById(R.id.add_to_basket_button);
+            removeFromFavoritesbutton = (ImageView) itemView.findViewById(R.id.remove_from_favorites_button);
             addToBasketbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -101,7 +104,24 @@ public class FavoritesAdapter  extends RecyclerView.Adapter<FavoritesAdapter.Pro
                             .child(products.get(getAdapterPosition()).getCategory()+"_"+products.get(getAdapterPosition()).getId())
                             .setValue("onBasket");
                     Toast.makeText(context,products.get(getAdapterPosition()).getName()+" "+context.getString(R.string.added_in_your_basket),Toast.LENGTH_SHORT).show();
-                    v.setVisibility(View.INVISIBLE);
+                    notifyDataSetChanged();
+                }
+            });
+            removeFromFavoritesbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDatabaseReference.child("favorite")
+                            .child(products.get(getAdapterPosition()).getCategory()+"_"+products.get(getAdapterPosition()).getId())
+                            .setValue(null)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            products.remove(getAdapterPosition());
+                            Toast.makeText(context,products.get(getAdapterPosition()).getName()+" "+context.getString(R.string.added_in_your_basket),Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+                        }
+                    });
+
                 }
             });
 
