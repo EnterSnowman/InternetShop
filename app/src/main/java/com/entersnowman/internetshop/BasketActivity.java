@@ -1,5 +1,6 @@
 package com.entersnowman.internetshop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -97,6 +98,9 @@ public class BasketActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.make_order:
+                startActivity(new Intent(this,MakeOrderActivity.class));
+                return true;
             case android.R.id.home:
                 onBackPressed();
                 return  true;
