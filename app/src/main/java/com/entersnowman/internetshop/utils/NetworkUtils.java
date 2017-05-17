@@ -1,5 +1,9 @@
 package com.entersnowman.internetshop.utils;
 
+import android.database.MatrixCursor;
+import android.provider.BaseColumns;
+import android.widget.SimpleCursorAdapter;
+
 import com.entersnowman.internetshop.model.CityRequestBody;
 import com.entersnowman.internetshop.model.MethodProperties;
 
@@ -36,7 +40,7 @@ public class NetworkUtils {
         newPostService = retrofit.create(NewPostService.class);
     }
 
-    public ArrayList<String> getCities(String query){
+    public ArrayList<String> getCities(String query, final SimpleCursorAdapter simpleCursorAdapter){
         CityRequestBody cityRequestBody = new CityRequestBody(API_KEY,"Address","getCities",new MethodProperties(query));
         Call<ResponseBody> call  = newPostService.getCities(cityRequestBody);
         final ArrayList<String> r = new ArrayList<>();
@@ -49,10 +53,14 @@ public class NetworkUtils {
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.has("data")){
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "cityName" });
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 r.add(((JSONObject) jsonArray.get(i)).getString("Description"));
                                 System.out.println(r.get(i));
+                                c.addRow(new Object[] {i, r.get(i)});
                             }
+                            simpleCursorAdapter.changeCursor(c);
+
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
