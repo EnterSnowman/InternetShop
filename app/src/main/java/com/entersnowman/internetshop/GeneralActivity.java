@@ -45,7 +45,7 @@ public class GeneralActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
-    final static String FIREBASE = "FIREBASE";
+    public final static String FIREBASE = "FIREBASE";
     @BindView(R.id.content) LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

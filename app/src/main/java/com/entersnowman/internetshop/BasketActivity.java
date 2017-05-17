@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -43,7 +45,7 @@ public class BasketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         basket_products = new ArrayList<>();
-        basketAdapter = new BasketAdapter(basket_products,this);
+        basketAdapter = new BasketAdapter(basket_products,this,mAuth.getCurrentUser().getUid());
         basketList.setAdapter(basketAdapter);
         basketList.setLayoutManager(new LinearLayoutManager(this));
         mDatabaseProducts = FirebaseDatabase.getInstance().getReference().child("products");
@@ -65,7 +67,7 @@ public class BasketActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot d2) {
                             Product p = d2.getValue(Product.class);
                             p.setCategory(d.getKey().split("_")[0]);
-
+                            p.setId(d.getKey().split("_")[1]);
                             basket_products.add(p);
                             basketAdapter.notifyDataSetChanged();
                         }
@@ -85,6 +87,12 @@ public class BasketActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.basket_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
