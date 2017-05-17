@@ -3,7 +3,7 @@ package com.entersnowman.internetshop.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MethodProperties {
+public class MethodProperties extends AbstractMethod{
 
     @SerializedName("FindByString")
     @Expose

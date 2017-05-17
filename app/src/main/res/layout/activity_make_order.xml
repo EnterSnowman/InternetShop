@@ -11,5 +11,23 @@
     android:id="@+id/find_city"
 ></SearchView>
 
+    <TextView
+        android:id="@+id/finded_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/find_city"
+        android:text="" />
+
+    <Spinner
+        android:id="@+id/warehouse_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/finded_city"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

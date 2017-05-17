@@ -1,11 +1,18 @@
 package com.entersnowman.internetshop.utils;
 
+import android.content.Context;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
+import android.widget.ArrayAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
+import com.entersnowman.internetshop.MakeOrderActivity;
+import com.entersnowman.internetshop.R;
 import com.entersnowman.internetshop.model.CityRequestBody;
 import com.entersnowman.internetshop.model.MethodProperties;
+import com.entersnowman.internetshop.model.MethodPropertiesWarehouse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,5 +84,40 @@ public class NetworkUtils {
 
 
         return  r;
+    }
+
+    public ArrayList<String> getWarehouses (String city, final ArrayAdapter spinnerAdapter){
+        CityRequestBody cityRequestBody = new CityRequestBody(API_KEY,"AddressGeneral","getWarehouses",new MethodPropertiesWarehouse(city));
+        Call<ResponseBody> call  = newPostService.getCities(cityRequestBody);
+        final ArrayList<String> r = new ArrayList<>();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String result = response.body().string();
+                    System.out.println(result);
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.has("data")){
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            r.add(((JSONObject) jsonArray.get(i)).getString("Description"));
+                            System.out.println(r.get(i));
+                        }
+                        spinnerAdapter.addAll(r);
+                        spinnerAdapter.notifyDataSetChanged();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+        return r;
     }
 }

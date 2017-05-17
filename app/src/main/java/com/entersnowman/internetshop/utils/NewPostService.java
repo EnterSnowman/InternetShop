@@ -18,4 +18,6 @@ import retrofit2.http.POST;
 public interface NewPostService {
     @POST("json/")
     Call<ResponseBody> getCities(@Body CityRequestBody cityRequestBody);
+    @POST("json/")
+    Call<ResponseBody> getWarehouses(@Body CityRequestBody warehousesRequestBody);
 }

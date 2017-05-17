@@ -16,7 +16,7 @@ public class CityRequestBody {
     private String calledMethod;
     @SerializedName("methodProperties")
     @Expose
-    private MethodProperties methodProperties;
+    private AbstractMethod methodProperties;
 
     public String getApiKey() {
         return apiKey;
@@ -24,7 +24,7 @@ public class CityRequestBody {
     public  CityRequestBody(){
 
     }
-    public CityRequestBody(String apiKey, String modelName, String calledMethod, MethodProperties methodProperties) {
+    public CityRequestBody(String apiKey, String modelName, String calledMethod, AbstractMethod methodProperties) {
         this.apiKey = apiKey;
         this.modelName = modelName;
         this.calledMethod = calledMethod;
@@ -51,11 +51,11 @@ public class CityRequestBody {
         this.calledMethod = calledMethod;
     }
 
-    public MethodProperties getMethodProperties() {
+    public AbstractMethod getMethodProperties() {
         return methodProperties;
     }
 
-    public void setMethodProperties(MethodProperties methodProperties) {
+    public void setMethodProperties(AbstractMethod methodProperties) {
         this.methodProperties = methodProperties;
     }
 
