@@ -38,4 +38,10 @@
     <string name="removed_from_your_favorites">removed from your favorites</string>
     <string name="make_order">Make an order</string>
     <string name="input_city">Input city</string>
+    <string name="cash">Cash</string>
+    <string name="payment_card">Payment card</string>
+    <string name="select_warehouse">Select warehouse</string>
+    <string name="city_of_destination">City of destination:</string>
+    <string name="payment_method">Select payment method</string>
+    <string name="select_all_options">Select all options</string>
 </resources>

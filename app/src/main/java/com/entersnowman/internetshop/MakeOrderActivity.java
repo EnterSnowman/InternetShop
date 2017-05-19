@@ -11,19 +11,31 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.entersnowman.internetshop.R;
 import com.entersnowman.internetshop.utils.NetworkUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,27 +46,62 @@ public class MakeOrderActivity extends AppCompatActivity {
     NetworkUtils networkUtils;
     @BindView(R.id.finded_city)
     TextView textView;
+    @BindView(R.id.spinner_hint) TextView spinner_hint;
+    @BindView(R.id.textView3) TextView payment_method;
     @BindView(R.id.warehouse_spinner)
     Spinner warehouseSpinner;
+    @BindView(R.id.payment_method_radioGroup)
+    RadioGroup radioGroup;
+    @BindView(R.id.make_order_button) Button makeOrderButton;
+
+
     private SimpleCursorAdapter mAdapter;
     ArrayAdapter<String> adapter;
     ArrayList<String> warehouses;
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_order);
         ButterKnife.bind(this);
-
         networkUtils = new NetworkUtils();
         final String[] from = new String[] {"cityName"};
         final int[] to = new int[] {android.R.id.text1};
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_1,
                 null,
                 from,
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        makeOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (warehouseSpinner.getSelectedItemPosition()== AdapterView.INVALID_POSITION||radioGroup.getCheckedRadioButtonId()==-1)
+                    Toast.makeText(MakeOrderActivity.this,R.string.select_all_options,Toast.LENGTH_SHORT).show();
+                else {
+                    final HashMap<String,Object> map = new HashMap<String, Object>();
+                    map.put("timestamp", ServerValue.TIMESTAMP);
+                    mDatabase.child("basket").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot d: dataSnapshot.getChildren())
+                                map.put(d.getKey(),"order");
+                            mDatabase.child("orders").push().setValue(map);
+                            Toast.makeText(MakeOrderActivity.this,"Order added",Toast.LENGTH_SHORT).show();
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+        });
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSuggestionsAdapter(mAdapter);
@@ -85,6 +132,10 @@ public class MakeOrderActivity extends AppCompatActivity {
                 networkUtils.getWarehouses(textView.getText().toString(),adapter);
                 warehouseSpinner.setAdapter(adapter);
                 warehouseSpinner.setVisibility(View.VISIBLE);
+                makeOrderButton.setVisibility(View.VISIBLE);
+                spinner_hint.setVisibility(View.VISIBLE);
+                payment_method.setVisibility(View.VISIBLE);
+                radioGroup.setVisibility(View.VISIBLE);
                 Log.d("search", ((Cursor)mAdapter.getItem(position)).getString(1));
                 return true;
             }
