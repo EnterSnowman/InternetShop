@@ -195,6 +195,9 @@ public class GeneralActivity extends AppCompatActivity
         if (id ==  R.id.nav_favor){
             startActivity(new Intent(this, FavoritesActivity.class));
         }
+        if (id == R.id.nav_orders){
+            startActivity(new Intent(this, OrderActivity.class));
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

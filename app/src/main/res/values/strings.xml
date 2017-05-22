@@ -44,4 +44,10 @@
     <string name="city_of_destination">City of destination:</string>
     <string name="payment_method">Select payment method</string>
     <string name="select_all_options">Select all options</string>
+    <string name="status_of_order">Status of order</string>
+    <string name="count_of_products">Count of products</string>
+    <string name="your_orders">Your orders</string>
+    <string name="city">City</string>
+    <string name="warehouse">Warehouse</string>
+    <string name="kind_of_payment">Kind of payment</string>
 </resources>
