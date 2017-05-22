@@ -84,12 +84,21 @@ public class MakeOrderActivity extends AppCompatActivity {
                 else {
                     final HashMap<String,Object> map = new HashMap<String, Object>();
                     map.put("timestamp", ServerValue.TIMESTAMP);
+                    map.put("city",textView.getText());
+                    map.put("warehouse",warehouseSpinner.getSelectedItem());
+                    if (radioGroup.getCheckedRadioButtonId()==R.id.cash_radioButton)
+                    map.put("kindOfPayment","cash");
+                    else
+                    map.put("kindOfPayment","card");
+                    final HashMap<String,Object> products = new HashMap<String, Object>();
                     mDatabase.child("basket").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot d: dataSnapshot.getChildren())
-                                map.put(d.getKey(),"order");
-                            mDatabase.child("orders").push().setValue(map);
+                                products.put(d.getKey(),"order");
+                            String id = mDatabase.child("orders").push().getKey();
+                            mDatabase.child("orders").child(id).setValue(map);
+                            mDatabase.child("orders").child(id).child("products").setValue(products);
                             Toast.makeText(MakeOrderActivity.this,"Order added",Toast.LENGTH_SHORT).show();
                         }
 
