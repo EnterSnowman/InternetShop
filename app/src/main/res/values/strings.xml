@@ -50,4 +50,10 @@
     <string name="city">City</string>
     <string name="warehouse">Warehouse</string>
     <string name="kind_of_payment">Kind of payment</string>
+    <string name="sort_by">Sort by</string>
+    <string name="from_cheap_to_expensive">From cheap to expensive</string>
+    <string name="from_expensive_to_cheap">From expensive to cheap</string>
+    <string name="consumer_rating">Consumer rating</string>
+    <string name="from_A_Z">From A to Z</string>
+    <string name="from_Z_A">From Z to A</string>
 </resources>
