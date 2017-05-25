@@ -56,4 +56,5 @@
     <string name="consumer_rating">Consumer rating</string>
     <string name="from_A_Z">From A to Z</string>
     <string name="from_Z_A">From Z to A</string>
+    <string name="pay">Pay</string>
 </resources>

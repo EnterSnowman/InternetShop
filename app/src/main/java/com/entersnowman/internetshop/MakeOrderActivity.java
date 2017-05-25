@@ -2,6 +2,7 @@ package com.entersnowman.internetshop;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
@@ -79,7 +80,8 @@ public class MakeOrderActivity extends AppCompatActivity {
         makeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (warehouseSpinner.getSelectedItemPosition()== AdapterView.INVALID_POSITION||radioGroup.getCheckedRadioButtonId()==-1)
+                startActivity(new Intent(MakeOrderActivity.this,CardPayActivity.class));
+                /*if (warehouseSpinner.getSelectedItemPosition()== AdapterView.INVALID_POSITION||radioGroup.getCheckedRadioButtonId()==-1)
                     Toast.makeText(MakeOrderActivity.this,R.string.select_all_options,Toast.LENGTH_SHORT).show();
                 else {
                     final HashMap<String,Object> map = new HashMap<String, Object>();
@@ -108,7 +110,7 @@ public class MakeOrderActivity extends AppCompatActivity {
                         }
                     });
 
-                }
+                }*/
             }
         });
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
