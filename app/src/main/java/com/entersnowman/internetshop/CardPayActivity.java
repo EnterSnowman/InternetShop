@@ -2,6 +2,7 @@ package com.entersnowman.internetshop;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,6 +21,8 @@ public class CardPayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_pay);
         ButterKnife.bind(this);
+        getSupportActionBar().setTitle(R.string.requisites);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cardEditor.addOnStateChangedListener(new CardEditor.OnStateChangedListener() {
             @Override
             public void onStateChange(CardEditor cardEditor) {
@@ -32,5 +35,17 @@ public class CardPayActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return  true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }

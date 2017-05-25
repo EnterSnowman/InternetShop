@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,6 +67,8 @@ public class MakeOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_order);
         ButterKnife.bind(this);
+        getSupportActionBar().setTitle(R.string.issue_order);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         networkUtils = new NetworkUtils();
         final String[] from = new String[] {"cityName"};
         final int[] to = new int[] {android.R.id.text1};
@@ -80,28 +83,27 @@ public class MakeOrderActivity extends AppCompatActivity {
         makeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MakeOrderActivity.this,CardPayActivity.class));
-                /*if (warehouseSpinner.getSelectedItemPosition()== AdapterView.INVALID_POSITION||radioGroup.getCheckedRadioButtonId()==-1)
+                //
+                if (warehouseSpinner.getSelectedItemPosition()== AdapterView.INVALID_POSITION||radioGroup.getCheckedRadioButtonId()==-1)
                     Toast.makeText(MakeOrderActivity.this,R.string.select_all_options,Toast.LENGTH_SHORT).show();
                 else {
-                    final HashMap<String,Object> map = new HashMap<String, Object>();
+                    if (radioGroup.getCheckedRadioButtonId() == R.id.cash_radioButton){
+                        final HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("timestamp", ServerValue.TIMESTAMP);
-                    map.put("city",textView.getText());
-                    map.put("warehouse",warehouseSpinner.getSelectedItem());
-                    if (radioGroup.getCheckedRadioButtonId()==R.id.cash_radioButton)
-                    map.put("kindOfPayment","cash");
-                    else
-                    map.put("kindOfPayment","card");
-                    final HashMap<String,Object> products = new HashMap<String, Object>();
+                    map.put("city", textView.getText());
+                    map.put("warehouse", warehouseSpinner.getSelectedItem());
+                    map.put("kindOfPayment", "cash");
+
+                    final HashMap<String, Object> products = new HashMap<String, Object>();
                     mDatabase.child("basket").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot d: dataSnapshot.getChildren())
-                                products.put(d.getKey(),"order");
+                            for (DataSnapshot d : dataSnapshot.getChildren())
+                                products.put(d.getKey(), "order");
                             String id = mDatabase.child("orders").push().getKey();
                             mDatabase.child("orders").child(id).setValue(map);
                             mDatabase.child("orders").child(id).child("products").setValue(products);
-                            Toast.makeText(MakeOrderActivity.this,"Order added",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MakeOrderActivity.this, "Order added", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -109,8 +111,11 @@ public class MakeOrderActivity extends AppCompatActivity {
 
                         }
                     });
-
-                }*/
+                }
+                else{
+                        startActivity(new Intent(MakeOrderActivity.this,CardPayActivity.class));
+                    }
+                }
             }
         });
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -151,6 +156,18 @@ public class MakeOrderActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return  true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 

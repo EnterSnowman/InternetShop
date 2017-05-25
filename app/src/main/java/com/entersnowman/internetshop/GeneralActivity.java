@@ -29,6 +29,7 @@ import com.entersnowman.internetshop.adapter.CategoryAdapter;
 import com.entersnowman.internetshop.adapter.FavoritesAdapter;
 import com.entersnowman.internetshop.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,16 +81,57 @@ public class GeneralActivity extends AppCompatActivity
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d: dataSnapshot.getChildren()){
-                    ArrayList<Product> products = new ArrayList<Product>();
-                    for (DataSnapshot p: d.getChildren()){
-                        Product pr = p.getValue(Product.class);
-                        pr.setId(p.getKey());
-                        products.add(pr);
-                    }
-                    addCategoryView(d.getKey(),products);
-                    Log.d(FIREBASE,"Cat "+d.getKey());
+                //sorted by rating in every category
+                for (final DataSnapshot d: dataSnapshot.getChildren()) {
+                    mDatabase.child(d.getKey()).orderByChild("rating").limitToLast(5).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d(FIREBASE,d.getKey());
+                                ArrayList<Product> products = new ArrayList<Product>();
+                                for (DataSnapshot p: dataSnapshot.getChildren()){
+                                    Log.d(FIREBASE,d.getKey());
+                                    Product pr = p.getValue(Product.class);
+                                    pr.setId(p.getKey());
+                                    products.add(pr);
+                                }
+                                addCategoryView(d.getKey(),products);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    /*mDatabase.child(d.getKey()).orderByChild("price").addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });*/
                 }
+
+                //
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
