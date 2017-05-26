@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 
 import com.entersnowman.internetshop.adapter.BestProductAdapter;
 import com.entersnowman.internetshop.adapter.CategoryAdapter;
+import com.entersnowman.internetshop.adapter.DiscountAdapter;
 import com.entersnowman.internetshop.adapter.FavoritesAdapter;
 import com.entersnowman.internetshop.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,9 +44,10 @@ import butterknife.ButterKnife;
 public class GeneralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-
+    private DatabaseReference mDatabase,mDatabaseDiscounts;
+    ArrayList<Product> discountProducts;
     public final static String FIREBASE = "FIREBASE";
+    DiscountAdapter discountAdapter;
     @BindView(R.id.content) LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class GeneralActivity extends AppCompatActivity
         setContentView(R.layout.activity_general);
         ButterKnife.bind(this);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("products");
+        mDatabaseDiscounts = FirebaseDatabase.getInstance().getReference().child("discounts");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.main_page));
@@ -71,7 +73,9 @@ public class GeneralActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        discountProducts = new ArrayList<>();
+        discountAdapter = new DiscountAdapter(discountProducts,this);
+        loadProductsWithDiscount();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         TextView nameLabel = (TextView) navigationView.getHeaderView(0).findViewById(R.id.name);
         navigationView.setNavigationItemSelectedListener(this);
@@ -102,35 +106,7 @@ public class GeneralActivity extends AppCompatActivity
 
                         }
                     });
-                    /*mDatabase.child(d.getKey()).orderByChild("price").addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });*/
                 }
-
-                //
 
             }
             @Override
@@ -149,6 +125,48 @@ public class GeneralActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+    public void loadProductsWithDiscount(){
+        mDatabaseDiscounts.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (final DataSnapshot d: dataSnapshot.getChildren()){
+                    mDatabase.child(d.getKey().split("_")[0]).child(d.getKey().split("_")[1]).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Product p = dataSnapshot.getValue(Product.class);
+                            p.setCategory(d.getKey().split("_")[0]);
+                            p.setId(d.getKey().split("_")[1]);
+                            discountProducts.add(p);
+                            discountAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }
+                displayDiscounts();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void displayDiscounts(){
+        View v = getLayoutInflater().inflate(R.layout.discount_view,null,false);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.discounts_list);
+        recyclerView.setAdapter(discountAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        linearLayout.addView(v,0);
+
     }
 
     public void addCategoryView(final String category, ArrayList<Product> products){
@@ -216,6 +234,8 @@ public class GeneralActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -10,6 +10,7 @@ public class Product {
     String photo_url;
     boolean isAvailable;
     float rating;
+    float discount;
     String description;
     String category;
     String id;
@@ -37,6 +38,13 @@ public class Product {
         this.id = id;
     }
 
+    public float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
+    }
 
     public  Product(){
 

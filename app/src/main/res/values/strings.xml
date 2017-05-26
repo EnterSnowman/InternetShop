@@ -59,4 +59,5 @@
     <string name="pay">Pay</string>
     <string name="issue_order">Issue order</string>
     <string name="requisites">Input your card requisites</string>
+    <string name="hot_discounts">HOT DISCOUNTS!</string>
 </resources>
