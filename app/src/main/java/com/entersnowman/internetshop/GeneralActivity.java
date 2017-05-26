@@ -150,6 +150,7 @@ public class GeneralActivity extends AppCompatActivity
 
 
                 }
+                if (dataSnapshot.getChildrenCount()!=0)
                 displayDiscounts();
             }
 

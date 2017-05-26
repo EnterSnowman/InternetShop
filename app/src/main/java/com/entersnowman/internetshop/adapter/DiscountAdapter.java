@@ -1,6 +1,7 @@
 package com.entersnowman.internetshop.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,7 @@ public class DiscountAdapter  extends RecyclerView.Adapter<DiscountAdapter.Produ
 
     @Override
     public DiscountAdapter.ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.small_product_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.small_product_item_with_discounts, parent, false);
         DiscountAdapter.ProductHolder vh = new DiscountAdapter.ProductHolder(v);
         return vh;
     }
@@ -97,6 +98,7 @@ public class DiscountAdapter  extends RecyclerView.Adapter<DiscountAdapter.Produ
             productPriceWithDiscount_tv = (TextView) itemView.findViewById(R.id.product_price_with_discount);
             productPrice_tv = (TextView) itemView.findViewById(R.id.product_price);
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
+            productPriceWithDiscount_tv.setPaintFlags(productPriceWithDiscount_tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             itemView.setOnClickListener(this);
         }
 
