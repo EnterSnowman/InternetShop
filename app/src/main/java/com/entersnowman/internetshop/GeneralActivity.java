@@ -3,6 +3,8 @@ package com.entersnowman.internetshop;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,10 +39,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GeneralActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,9 +78,27 @@ public class GeneralActivity extends AppCompatActivity
         loadProductsWithDiscount();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         TextView nameLabel = (TextView) navigationView.getHeaderView(0).findViewById(R.id.name);
+        final CircleImageView imageView = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
         navigationView.setNavigationItemSelectedListener(this);
         mAuth = FirebaseAuth.getInstance();
         nameLabel.setText(mAuth.getCurrentUser().getDisplayName());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mAuth.getCurrentUser().getPhotoUrl()!=null){
+                    final Bitmap bm = getImageBitmap(mAuth.getCurrentUser().getPhotoUrl().toString());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(bm);
+                        }
+                    });
+
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
         Log.d(FIREBASE,"NAme is: "+mAuth.getCurrentUser().getDisplayName());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -106,6 +133,23 @@ public class GeneralActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    public static Bitmap getImageBitmap(String url) {
+        Bitmap bm = null;
+        try {
+            URL aURL = new URL(url);
+            URLConnection conn = aURL.openConnection();
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            is.close();
+        } catch (IOException e) {
+            Log.e("Storage", "Error getting bitmap", e);
+        }
+        return bm;
     }
 
     @Override

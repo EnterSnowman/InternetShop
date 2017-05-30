@@ -47,6 +47,7 @@ dependencies {
     compile 'com.github.mancj:SlideUp-Android:2.2.3'
     compile 'com.simplify:simplify-android:3.2.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.karumi:dexter:4.1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
