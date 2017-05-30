@@ -60,4 +60,7 @@
     <string name="issue_order">Issue order</string>
     <string name="requisites">Input your card requisites</string>
     <string name="hot_discounts">HOT DISCOUNTS!</string>
+    <string name="reset_password">Reset password</string>
+    <string name="email_sended">You have been sent a letter with further instructions.</string>
+    <string name="apply_changes">Apply changes</string>
 </resources>

@@ -13,7 +13,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp" />
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/discount_size"
             android:layout_width="40dp"
             android:gravity="center"
             android:background="@drawable/rounded_discount"
@@ -36,7 +36,7 @@
         android:layout_marginBottom="4dp"/>
 
     <TextView
-        android:id="@+id/product_price_with_discount"
+        android:id="@+id/product_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
@@ -44,7 +44,7 @@
         android:text="sample"
         android:textSize="16sp" />
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/product_price_with_discount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"

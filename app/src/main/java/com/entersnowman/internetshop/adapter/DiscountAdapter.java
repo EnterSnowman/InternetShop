@@ -3,6 +3,7 @@ package com.entersnowman.internetshop.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
+
+import static com.entersnowman.internetshop.GeneralActivity.FIREBASE;
 
 /**
  * Created by Valentin on 26.05.2017.
@@ -78,6 +81,8 @@ public class DiscountAdapter  extends RecyclerView.Adapter<DiscountAdapter.Produ
         imageLoader.init(ImageLoaderConfiguration.createDefault(context)); // Проинициализировали конфигом по умолчанию
         imageLoader.displayImage(products.get(position).getPhoto_url(), holder.productPhoto); // Запустили асинхронный показ картинки
         holder.productName_tv.setText(products.get(position).getName());
+        Log.d(FIREBASE, String.valueOf(products.get(position).getDiscount()));
+        holder.discountSize.setText("-"+(int)(products.get(position).getDiscount()*100)+"%");
         holder.productPrice_tv.setText(Float.toString(products.get(position).getPrice())+" UAH");
         holder.productPriceWithDiscount_tv.setText(Float.toString(products.get(position).getPrice()*(1-products.get(position).getDiscount()))+" UAH");
     }
@@ -91,6 +96,7 @@ public class DiscountAdapter  extends RecyclerView.Adapter<DiscountAdapter.Produ
         TextView productName_tv;
         TextView productPrice_tv;
         TextView productPriceWithDiscount_tv;
+        TextView discountSize;
         ImageView productPhoto;
         public ProductHolder(View itemView) {
             super(itemView);
@@ -98,7 +104,8 @@ public class DiscountAdapter  extends RecyclerView.Adapter<DiscountAdapter.Produ
             productPriceWithDiscount_tv = (TextView) itemView.findViewById(R.id.product_price_with_discount);
             productPrice_tv = (TextView) itemView.findViewById(R.id.product_price);
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
-            productPriceWithDiscount_tv.setPaintFlags(productPriceWithDiscount_tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            productPrice_tv.setPaintFlags(productPriceWithDiscount_tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            discountSize = (TextView) itemView.findViewById(R.id.discount_size);
             itemView.setOnClickListener(this);
         }
 
